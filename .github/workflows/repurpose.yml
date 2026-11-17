@@ -116,6 +116,24 @@ jobs:
             echo "✅ Loaded YouTube authentication cookies"
           fi
 
+      - name: Reassemble Uploaded Audio Chunks
+        run: |
+          python -c "
+          import os, glob
+          parts = glob.glob('data/incoming_audio/*.mp3.part*')
+          if parts:
+              bases = set([p.split('.part')[0] for p in parts])
+              for b in bases:
+                  chunks = sorted(glob.glob(b + '.part*'))
+                  if chunks and not os.path.exists(b):
+                      print(f'Reassembling {len(chunks)} chunks -> {b}')
+                      with open(b, 'wb') as out_f:
+                          for c in chunks:
+                              with open(c, 'rb') as in_f:
+                                  out_f.write(in_f.read())
+                      print(f'Created {b} ({os.path.getsize(b)/1024/1024:.2f} MB)')
+          "
+
       - name: Run Motivational Repurposing Pipeline
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
