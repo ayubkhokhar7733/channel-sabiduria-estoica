@@ -33,6 +33,10 @@ def extract_youtube_audio_and_metadata(url: str, output_dir: str = None) -> dict
 
     print(f"[youtube_extractor] Fetching audio & metadata from: {url}")
 
+    video_id_match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11})', url)
+    video_id = video_id_match.group(1) if video_id_match else "source"
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
     # 0. Check for chunked audio files and reassemble them
     incoming_dir = os.path.join(repo_root, "data", "incoming_audio")
     if os.path.exists(incoming_dir):
@@ -51,9 +55,6 @@ def extract_youtube_audio_and_metadata(url: str, output_dir: str = None) -> dict
             print(f"[youtube_extractor] Reassembled: {assembled_file} ({os.path.getsize(assembled_file)/1024/1024:.2f} MB)")
 
     # 0. Check for pre-cached/committed incoming audio (bypasses YouTube bot block completely!)
-    video_id_match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11})', url)
-    video_id = video_id_match.group(1) if video_id_match else "source"
-    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     cache_candidates = [
         os.path.join(repo_root, "data", "incoming_audio", f"{video_id}_audio.mp3"),
         os.path.join(output_dir, f"{video_id}_source.mp3"),
@@ -77,8 +78,7 @@ def extract_youtube_audio_and_metadata(url: str, output_dir: str = None) -> dict
                 "title": "Lo que más protege TU CEREBRO en LA VEJEZ no es la compañía | Nazareth Castellanos",
                 "description": "#nazarethcastellanos #neurociencia #bienestar #sabiduriadiaria\nEn este video descubrirás, según la neurociencia con la Dra. Nazareth Castellanos, qué es la reserva cognitiva y por qué protege tu cerebro en la vejez.",
                 "tags": ["nazareth castellanos", "neurociencia", "cerebro", "vejez", "reserva cognitiva", "sabiduria diaria", "psicologia"],
-                "uploader": "NEURO CIENCIA",
-                "duration": 2350.0,
+                                "duration": 2350.0,
                 "thumbnail_url": f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg",
                 "webpage_url": url,
             }
