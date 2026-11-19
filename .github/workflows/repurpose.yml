@@ -188,7 +188,7 @@ jobs:
         with:
           name: sabiduria-estoica-output
           path: |
-          output/**
-          !output/**/*.mp4
-          !output/*.mp4/
+            output/**
+            !output/**/*.mp4
+            !output/*.mp4
           retention-days: 1
