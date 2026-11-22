@@ -8,9 +8,9 @@ on:
         required: true
         type: string
       speaker_name:
-        description: 'Speaker Name (default: Stoic Arstoo)'
+        description: 'Speaker Name (default: Walter Riso)'
         required: false
-        default: 'Stoic Arstoo'
+        default: 'Walter Riso'
         type: string
       speaker_image:
         description: 'Speaker Photo / Avatar (Image URL or base64 data)'

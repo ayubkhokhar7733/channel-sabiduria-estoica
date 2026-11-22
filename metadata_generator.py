@@ -340,39 +340,39 @@ def spin_motivational_metadata(
     config.reload()
     api_key = config.GROQ_API_KEY
 
-    clean_speaker = speaker_name.strip() if speaker_name else "Dr Mario"
+    clean_speaker = speaker_name.strip() if speaker_name else "Walter Riso"
     is_spanish = bool(re.search(r'[áéíóúñ¿¡]', f"{original_title} {original_description} {transcript}", re.IGNORECASE)) or any(w in f"{original_title.lower()} {transcript[:200].lower()}" for w in [" en ", " de ", " la ", " el ", " tu ", " que ", " como ", " para "])
 
     def _fallback_spin():
         if is_spanish:
             templates = [
-                f"La Verdad Sobre Tu Mente Que Nadie Te Cuenta | {clean_speaker}",
-                f"La Regla Neurocientífica Que Cambia Tu Cerebro | {clean_speaker}",
-                f"Por Qué el 99% Pierde Su Enfoque Mental | {clean_speaker}",
-                f"Haz Esto Con Tu Mente y Cambiarás Para Siempre | {clean_speaker}",
-                f"Lo Que Tu Cerebro Necesita Que Guardes en Secreto | {clean_speaker}",
+                f"La Verdad Sobre el Amor Propio Que Nadie Te Dice | {clean_speaker}",
+                f"La Regla Psicológica Para Sanar Tu Mente | {clean_speaker}",
+                f"Por Qué el 99% Cae en el Apego Emocional | {clean_speaker}",
+                f"Aprende a Soltar y Tu Vida Cambiará Para Siempre | {clean_speaker}",
+                f"Lo Que Debes Guardar en Silencio Por Tu Dignidad | {clean_speaker}",
             ]
             spun_title = truncate_title(random.choice(templates), max_length=70)
             spun_desc = (
-                f"Poderoso mensaje de {clean_speaker} sobre psicología, disciplina, mentalidad y superación personal.\n\n"
-                f"\"Si quieres cambiar tu vida, debes estar dispuesto a hacer lo que la mayoría evita.\"\n\n"
+                f"Poderoso mensaje de {clean_speaker} sobre psicología, amor propio, superación del apego y relaciones saludables.\n\n"
+                f"\"El amor propio no es vanidad, es el escudo indispensable para proteger tu dignidad y paz interior.\"\n\n"
                 f"Voz / Orador: {clean_speaker}\n"
-                f"Canal: Hábitos de Acero\n\n"
-                f"Suscríbete a Hábitos de Acero para tu dosis de disciplina, mentalidad y crecimiento personal."
+                f"Canal: Sabiduría Estoica\n\n"
+                f"Suscríbete a Sabiduría Estoica para más reflexiones sobre psicología, fortaleza mental y bienestar interior."
             )
             base_tags = [
                 clean_speaker.lower(),
-                "habitos de acero",
-                "dr mario",
-                "mario alonso puig",
-                "motivacion",
+                "walter riso",
+                "sabiduria estoica",
+                "amor propio",
+                "autoestima",
+                "apego emocional",
                 "psicologia",
-                "desarrollo personal",
-                "disciplina",
-                "mentalidad ganadora",
-                "exito",
+                "relaciones saludables",
+                "dignidad personal",
                 "superacion personal",
-                "liderazgo",
+                "bienestar emocional",
+            ]
             ]
         else:
             templates = [
@@ -484,9 +484,9 @@ def spin_motivational_metadata(
         desc = data.get("description", "")
         # Ensure description begins with hashtags if not already present
         if clean_speaker and not desc.strip().startswith("#"):
-            tag_line = f"#{clean_speaker.lower().replace(' ', '')} #habitosdeacero #desarrollopersonal #disciplina\n\n"
+            tag_line = f"#{clean_speaker.lower().replace(' ', '')} #walterriso #autoestima #amorpropio #psicologia\n\n"
             desc = tag_line + desc.strip()
-        tags = data.get("tags", ["habitos de acero", "dr mario", "desarrollopersonal", "disciplina"])
+        tags = data.get("tags", ["sabiduria estoica", "walter riso", "autoestima", "amor propio", "psicologia", "desarrollo personal"])
         cat = data.get("category", "Education")
 
         print(f"[metadata_generator] Spun altered title: \"{title}\" (from \"{original_title[:45]}...\")")
