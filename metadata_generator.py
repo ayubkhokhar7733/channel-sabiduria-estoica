@@ -458,12 +458,21 @@ def spin_motivational_metadata(
             "{\"title\": \"...\", \"description\": \"...\", \"tags\": [...], \"category\": \"Education\"}"
         )
 
-        resp = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-            response_format={"type": "json_object"},
-        )
+        resp = None
+        for m in ["llama-3.1-8b-instant", "llama-3.3-70b-versatile", "llama3-70b-8192"]:
+            try:
+                resp = client.chat.completions.create(
+                    model=m,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,
+                    response_format={"type": "json_object"},
+                )
+                if resp:
+                    break
+            except Exception:
+                continue
+        if not resp:
+            raise RuntimeError("All Groq models failed for metadata spinning.")
         data = json.loads(resp.choices[0].message.content.strip())
         raw_title = data.get("title", "")
         if is_generic_speaker:
