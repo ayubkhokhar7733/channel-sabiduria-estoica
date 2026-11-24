@@ -373,7 +373,6 @@ def spin_motivational_metadata(
                 "superacion personal",
                 "bienestar emocional",
             ]
-            ]
         else:
             templates = [
                 f"The Uncomfortable Truth Nobody Wants To Hear | {clean_speaker}",
